@@ -7,50 +7,55 @@ public class GameManager : MonoBehaviour
 {
 
     private int baseBet = 0;
+    private int startBalance = 1000;
+    private int betSum;
+    private int lastSpinBetSum;
     public Text balanceText;
     public Text betText;
     public Text winText;
     public Text numberText;
-    public Text historyText;
-    public StatisticsManager statisticsManager;
     private NumberService numberService = NumberService.GetInstance();
     private HistoryRepository historyRepository;
-    private List<int> history = new List<int>();
-    private int historyCount;
-    private int betSum;
-    private int lastSpinBetSum;
     private List<Bet> bets = new List<Bet>();
     private List<Bet> lastBets = new List<Bet>();
     private List<int> lastCellsIds = new List<int>();
     private Cell[] cells;
-    private Mailer mailManager;
     private Player player;
+    public StatisticsView statisticsManager;
+    public HistoryView history;
+    public GameObject startPanel;
 
     // Start is called before the first frame update
     void Start()
     {
         historyRepository = HistoryRepository.GetInstance();
+        Load();
+
+        cells = FindObjectsOfType<Cell>();
+
+        PrintText(player.Balance);
+
+        if (!historyRepository.IsHistoryEmpty())
+        {
+            startPanel.SetActive(true);
+        }
+    }
+
+    private void Load()
+    {
         player = SaveManager.LoadPlayerData();
 
         if (player == null)
         {
-            player = new Player(100000);
+            player = new Player(startBalance);
         }
-
-        historyText.text = historyRepository.BuildHistoryString(60);
-        int lastNumber = historyRepository.GetLastNumberValue();
-        PrintNumber(lastNumber);
-        balanceText.text = "Balance: " + player.Balance;
-        betText.text = "Bet: " + 0;
-        winText.text = "You won: " + 0;
-        cells = FindObjectsOfType<Cell>();
     }
 
     public void Run()
     {
         int winSum = 0;
         winText.text = "You won: " + winSum;
-        int random = UnityEngine.Random.Range(0, 36);
+        int random = UnityEngine.Random.Range(0, 37);
         PrintNumber(random);
         foreach (Bet bet in bets) {
             bool isExists = bet.Numbers.Exists(n => n.Value == random);
@@ -67,6 +72,16 @@ public class GameManager : MonoBehaviour
         Clear();
     }
 
+    private void PrintText(int balance)
+    {
+        int lastNumber = historyRepository.GetLastNumberValue();
+        PrintNumber(lastNumber);
+        balanceText.text = "Balance: " + balance;
+        betText.text = "Bet: " + 0;
+        winText.text = "You won: " + 0;
+        history.Show();
+    }
+
     private void PrintNumber(int value)
     {
         if (value < 0)
@@ -77,24 +92,13 @@ public class GameManager : MonoBehaviour
 
         numberText.text = value.ToString();
         Number number = numberService.GetNumber(value);
-        if (number.Color == Color.GREEN)
-        {
-            numberText.color = UnityEngine.Color.green;
-        }
-        else if (number.Color == Color.RED)
-        {
-            numberText.color = UnityEngine.Color.red;
-        }
-        else if (number.Color == Color.BLACK)
-        {
-            numberText.color = UnityEngine.Color.black;
-        }
+        numberText.color = Utils.GetColor(number.Color.Value);
     }
 
     private void HandleHistory(int number)
     {
         historyRepository.SaveNumber(number);
-        historyText.text = historyRepository.BuildHistoryString(50);
+        history.Show();
     }
 
     public void MakeBet(Bet bet)
@@ -104,6 +108,17 @@ public class GameManager : MonoBehaviour
         player.Balance -= bet.Value;
         balanceText.text = "Balance: " + player.Balance;
         betText.text = "Bet: " + betSum;
+    }
+
+    public void IncreaseBalance(int value)
+    {
+        int newBalance = player.Balance + value;
+        if (newBalance > 50000)
+        {
+            newBalance = 50000;
+        }
+        player.Balance = newBalance;
+        balanceText.text = "Balance: " + player.Balance;
     }
 
     public void SetBaseBet(int bet)
@@ -182,9 +197,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void StartNewSession()
+    {
+        startPanel.SetActive(false);
+        historyRepository.ClearHistory();
+        player = new Player(startBalance);
+        PrintText(player.Balance);
+    }
+
     private void OnApplicationQuit()
     {
         SaveManager.SavePlayerData(player);
         historyRepository.SaveHistory();
+        Mailer.SendEmail(historyRepository.BuildReportString());
     }
 }

@@ -7,25 +7,23 @@ public class BetButton : MonoBehaviour
 {
 
     public int bet;
+    public bool isBaseBet = false;
     private GameManager gameManager;
     private Button button;
     private UnityEngine.Color baseNormalColor;
     private ColorBlock colors;
 
-    void Awake()
+    void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         button = GetComponent<Button>();
         colors = button.colors;
         baseNormalColor = colors.normalColor;
-    }
 
-    void Start()
-    {
-        //gameManager = FindObjectOfType<GameManager>();
-        //button = GetComponent<Button>();
-        //colors = button.colors;
-        //baseNormalColor = colors.normalColor;
+        if (isBaseBet)
+        {
+            SetBet();
+        }
     }
 
     public void SetBet()

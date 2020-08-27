@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class StatisticsManager : MonoBehaviour
+public class StatisticsView : MonoBehaviour
 {
     public TextMeshProUGUI spinCountText;
     public TextMeshProUGUI blackCountText;
@@ -20,14 +20,12 @@ public class StatisticsManager : MonoBehaviour
     {
         gameObject.SetActive(false);
         historyRepository = HistoryRepository.GetInstance();
-        print("Start called for Statistics");
     }
 
-    public void ShowStatistics()
+    public void Show()
     {
-        print("statistics: " + historyRepository);
-        spinCountText.text = "Count of spins: " + historyRepository.GetSpinCount();
-        redCountText.text = "Count of Red: " + historyRepository.GetRedCount();
+        spinCountText.text = $"Count of spins: {historyRepository.GetSpinCount()}";
+        redCountText.text = $"Count of Red: {historyRepository.GetRedCount()}";
         blackCountText.text = "Count of Black: " + historyRepository.GetBlackCount();
         greenCountText.text = "Count of Zero: " + historyRepository.GetZeroCount();
         leftNumbersCountText.text = "Count of 1 to 18: " + historyRepository.Get1to18Count();

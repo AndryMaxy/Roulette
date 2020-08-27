@@ -16,11 +16,6 @@ public class Cell : MonoBehaviour
 
     private GameManager gameManager;
 
-    public Cell()
-    {
-
-    }
-
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();

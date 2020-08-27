@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class NumberUtils
+public static class NumberUtils
 {
 
     public static Number GetNumber(List<Number> numbers, int numberValue)
@@ -14,7 +14,7 @@ class NumberUtils
 
     public static List<Number> GetByColor(List<Number> numbers, Color color)
     {
-        return numbers.FindAll(number => number.Color == color);
+        return numbers.FindAll(number => number.Color.Value == color.Value);
     }
 
     public static List<Number> GetEven(List<Number> numbers)
