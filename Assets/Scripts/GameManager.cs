@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
         Clear();
     }
 
+    public bool IsBalancePositive(int bet)
+    {
+        return player.Balance >= bet;
+    }
+
     private void PrintText(int balance)
     {
         int lastNumber = historyRepository.GetLastNumberValue();
@@ -133,6 +138,7 @@ public class GameManager : MonoBehaviour
 
     public void SetLastSpinBet()
     {
+        if (!IsBalancePositive(lastSpinBetSum)) return;
         if (lastBets.Count <= 0) return;
 
         foreach (Cell cell in cells)

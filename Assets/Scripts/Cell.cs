@@ -27,7 +27,6 @@ public class Cell : MonoBehaviour
 
         int currentBet = gameManager.GetBaseBet();
         int newBet = cellBet + currentBet;
- 
         if (newBet > maxBet)
         {
             currentBet = maxBet - cellBet;
@@ -37,6 +36,9 @@ public class Cell : MonoBehaviour
             currentBet = minBet;
             newBet = minBet;
         }
+
+        if (!gameManager.IsBalancePositive(currentBet)) return;
+
         cellBet = newBet;
         print("nubmer clicked: " + value);
         image.gameObject.SetActive(true);
