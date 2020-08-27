@@ -213,6 +213,7 @@ public class GameManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        bets.ForEach(bet => player.Balance += bet.Value);
         SaveManager.SavePlayerData(player);
         historyRepository.SaveHistory();
         Mailer.SendEmail(historyRepository.BuildReportString());
