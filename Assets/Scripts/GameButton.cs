@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameButton : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GameButton : MonoBehaviour
 
     public void RepeatBet()
     {
+        GetComponent<Button>().interactable = false;
         gameManager.SetLastSpinBet();
     }
 

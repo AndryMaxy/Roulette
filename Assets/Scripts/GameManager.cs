@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public Text betText;
     public Text winText;
     public Text numberText;
+    public Button repeat;
     private NumberService numberService = NumberService.GetInstance();
     private HistoryRepository historyRepository;
     private List<Bet> bets = new List<Bet>();
@@ -113,6 +114,7 @@ public class GameManager : MonoBehaviour
         player.Balance -= bet.Value;
         balanceText.text = "Balance: " + player.Balance;
         betText.text = "Bet: " + betSum;
+        repeat.interactable = false;
     }
 
     public void IncreaseBalance(int value)
@@ -201,6 +203,8 @@ public class GameManager : MonoBehaviour
         {
             cell.Clear();
         }
+
+        repeat.interactable = lastSpinBetSum <= player.Balance && lastSpinBetSum != 0;
     }
 
     public void StartNewSession()
