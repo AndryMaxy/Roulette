@@ -1632,12 +1632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078dd36441d6dab45b70deb1cb6cc54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectComponent: {fileID: 0}
-  imageComp: {fileID: 0}
-  up: 0
-  rotateSpeed: 200
-  openSpeed: 0.005
-  closeSpeed: 0.01
 --- !u!224 &278073499 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5422100171708965034, guid: a3b52e86bc1b9474f980b176c9b5e605,
@@ -2977,6 +2971,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 531816104}
   m_CullTransparentMesh: 0
+--- !u!114 &534484697 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 89243212472207646, guid: b27e6437ef0f97240a19ff0680ab8f91,
+    type: 3}
+  m_PrefabInstance: {fileID: 89243212192395724}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &543550051 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5422100171708965034, guid: a3b52e86bc1b9474f980b176c9b5e605,
@@ -7439,6 +7445,7 @@ MonoBehaviour:
   betText: {fileID: 1415836998}
   winText: {fileID: 1425714721}
   numberText: {fileID: 1711406352}
+  repeat: {fileID: 534484697}
   statisticsManager: {fileID: 447271933}
   history: {fileID: 440786281}
   startPanel: {fileID: 1279115584}
@@ -12868,6 +12875,11 @@ PrefabInstance:
     - target: {fileID: 89243212472207646, guid: b27e6437ef0f97240a19ff0680ab8f91,
         type: 3}
       propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 89243212472207646, guid: b27e6437ef0f97240a19ff0680ab8f91,
+        type: 3}
+      propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
